@@ -7,6 +7,8 @@ public class ConsoleView implements View {
     public ConsoleView(ConsolePresenter presenter) {
         this.presenter = presenter;
         setUp();
+        getSettings();
+        getAnimals();
     }
 
     @Override
@@ -14,8 +16,15 @@ public class ConsoleView implements View {
         System.out.println(statistics);
     }
 
+    private void getAnimals() {
+        presenter.getAnimals();
+    }
+
+    private void getSettings() {
+        presenter.getSettings();
+    }
+
     private void setUp() {
         presenter.onAttach(this);
-        presenter.init();
     }
 }

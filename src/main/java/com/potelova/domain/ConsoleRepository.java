@@ -1,5 +1,12 @@
 package com.potelova.domain;
 
+import com.potelova.data.model.Animal;
+import com.potelova.data.model.Setting;
+
+import java.util.List;
+
 public interface ConsoleRepository {
-    String getTestData();
+    List<Animal> getAnimals();
+
+    Setting getSetting();
 }
