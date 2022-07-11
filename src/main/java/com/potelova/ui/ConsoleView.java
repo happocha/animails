@@ -8,7 +8,6 @@ public class ConsoleView implements View {
         this.presenter = presenter;
         setUp();
         getSettings();
-        getAnimals();
     }
 
     @Override
