@@ -1,41 +1,49 @@
 package com.potelova.ui;
 
-import com.potelova.data.model.Animal;
+import com.potelova.data.model.Environment;
 import com.potelova.data.model.Setting;
-import com.potelova.domain.AnimalUseCase;
+import com.potelova.domain.EnvironmentUseCase;
 import com.potelova.domain.SettingUseCase;
+import com.potelova.ui.model.GameMap;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ConsolePresenter {
-    private final AnimalUseCase animalUseCase;
-
+    private final EnvironmentUseCase environmentUseCase;
     private final SettingUseCase settingUseCase;
+    private final GameMapCreator gameMapCreator;
+
+    private final EnvironmentCreator environmentCreator;
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private GameMap gameMap;
     private View view;
 
-    public ConsolePresenter(AnimalUseCase animalUseCase, SettingUseCase settingUseCase) {
-        this.animalUseCase = animalUseCase;
+    public ConsolePresenter(
+            final EnvironmentUseCase environmentUseCase,
+            final SettingUseCase settingUseCase,
+            final GameMapCreator gameMapCreator,
+            final EnvironmentCreator environmentCreator
+    ) {
+        this.environmentUseCase = environmentUseCase;
         this.settingUseCase = settingUseCase;
+        this.gameMapCreator = gameMapCreator;
+        this.environmentCreator = environmentCreator;
     }
 
     public void onAttach(View consoleView) {
         view = consoleView;
     }
 
-    public void getAnimals() {
+    public void init() {
         try {
-            List<Animal> result = animalUseCase.execute().get();
-            System.out.println(result.get(1).name);
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void getSettings() {
-        try {
+            List<Environment> environments = environmentUseCase.execute().get();
             Setting setting = settingUseCase.execute().get();
-            System.out.println(setting.getPeriod());
+            gameMap = gameMapCreator.create(setting);
+            environmentCreator.create(gameMap, environments);
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
