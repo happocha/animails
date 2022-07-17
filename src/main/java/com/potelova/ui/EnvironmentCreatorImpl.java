@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EnvironmentCreatorImpl implements EnvironmentCreator {
 
-    final private ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     @Override
     public void create(GameMap gameMap, List<Environment> environments) {
