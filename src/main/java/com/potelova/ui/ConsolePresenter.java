@@ -39,6 +39,7 @@ public class ConsolePresenter {
             final Setting setting = settingUseCase.execute().get();
             final GameMap gameMap = createMap(setting).get();
             fillMap(gameMap, environments).get();
+            System.out.println("");
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
