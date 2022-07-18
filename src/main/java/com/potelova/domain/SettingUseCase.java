@@ -20,7 +20,7 @@ public class SettingUseCase {
 
     public void shutdown() {
         if (!executor.isShutdown()) {
-            executor.shutdownNow();
+            executor.shutdown();
         }
     }
 }
