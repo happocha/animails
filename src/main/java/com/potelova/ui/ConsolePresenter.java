@@ -4,6 +4,7 @@ import com.potelova.data.model.Environment;
 import com.potelova.data.model.Setting;
 import com.potelova.domain.EnvironmentUseCase;
 import com.potelova.domain.SettingUseCase;
+import com.potelova.ui.model.Cell;
 import com.potelova.ui.model.GameMap;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public class ConsolePresenter {
             final Setting setting = settingUseCase.execute().get();
             final GameMap gameMap = createMap(setting).get();
             fillMap(gameMap, environments).get();
+            for (Cell cell : gameMap.getCells().get(0)) {
+                System.out.println(cell.getEnvironments().get(0).name);
+            }
             onCleared();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
