@@ -17,4 +17,10 @@ public class SettingUseCase {
     public Future<Setting> execute() {
         return executor.submit(consoleRepository::getSetting);
     }
+
+    public void shutdown() {
+        if (!executor.isShutdown()) {
+            executor.shutdownNow();
+        }
+    }
 }

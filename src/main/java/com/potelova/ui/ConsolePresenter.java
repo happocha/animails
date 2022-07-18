@@ -39,7 +39,7 @@ public class ConsolePresenter {
             final Setting setting = settingUseCase.execute().get();
             final GameMap gameMap = createMap(setting).get();
             fillMap(gameMap, environments).get();
-            System.out.println("");
+            onCleared();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -62,5 +62,11 @@ public class ConsolePresenter {
                 return null;
             }
         });
+    }
+
+    private void onCleared() {
+        settingUseCase.shutdown();
+        environmentUseCase.shutdown();
+        executor.shutdownNow();
     }
 }

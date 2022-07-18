@@ -15,7 +15,14 @@ public class EnvironmentUseCase {
     public EnvironmentUseCase(ConsoleRepository consoleRepository) {
         this.consoleRepository = consoleRepository;
     }
-    public Future<List<Environment>>execute() {
+
+    public Future<List<Environment>> execute() {
         return executor.submit(consoleRepository::getEnvironment);
+    }
+
+    public void shutdown() {
+        if (!executor.isShutdown()) {
+            executor.shutdownNow();
+        }
     }
 }
