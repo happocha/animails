@@ -10,23 +10,29 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class ConsolePresenter {
+
+    private final SimulationService simulationService;
     private final EnvironmentUseCase environmentUseCase;
     private final SettingUseCase settingUseCase;
     private final GameMapCreator gameMapCreator;
     private final EnvironmentCreator environmentCreator;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    private final ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(2);
     private View view;
 
     public ConsolePresenter(
             final EnvironmentUseCase environmentUseCase,
             final SettingUseCase settingUseCase,
             final GameMapCreator gameMapCreator,
-            final EnvironmentCreator environmentCreator
+            final EnvironmentCreator environmentCreator,
+            final SimulationService simulationService
     ) {
         this.environmentUseCase = environmentUseCase;
         this.settingUseCase = settingUseCase;
         this.gameMapCreator = gameMapCreator;
         this.environmentCreator = environmentCreator;
+        this.simulationService = simulationService;
     }
 
     public void onAttach(View consoleView) {
@@ -39,7 +45,6 @@ public class ConsolePresenter {
             final Setting setting = settingUseCase.execute().get();
             final GameMap gameMap = createMap(setting).get();
             fillMap(gameMap, environments).get();
-            shutdownAll();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

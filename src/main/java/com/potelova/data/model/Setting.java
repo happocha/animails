@@ -1,7 +1,6 @@
 package com.potelova.data.model;
 
 import java.io.Serializable;
-import java.lang.Integer;
 
 public class Setting implements Serializable {
   private int consoleCellWith;
